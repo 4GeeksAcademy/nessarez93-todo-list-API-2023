@@ -28,3 +28,20 @@ h6 {
 button {
     float: right;
 }
+
+.borra {
+    /*display: none;*/
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.borra:hover {
+    background-color: red;
+    opacity: 1;
+}
+
+/* .container:hover .borra {
+    opacity: 1;
+} */
