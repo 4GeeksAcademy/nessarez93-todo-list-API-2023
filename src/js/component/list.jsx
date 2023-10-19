@@ -11,12 +11,32 @@ const ToDoList = () => {
             setToDo({...toDo, "label":e.target.value})
         }
         
+        const createUser = async () => {
+            try {
+                let response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/nessa", {
+                    method: "POST", 
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify([])
+                }) 
+                if (response.ok) {
+                    getToDo()
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
         const getToDo = async() => {
             try {
                 let response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/nessa");
                 if (response.ok) {
                     let data = await response.json();
                     setToDoArray(data);
+                } 
+                if (response.status == 404) {
+                    createUser()
                 }
             } catch (error) {
                 console.log(error);
@@ -48,23 +68,24 @@ const ToDoList = () => {
             getToDo();
         },[])
 
-// //Esta función activa el enter
-//         function submit(e) {
-//             console.log('submit')
-//             setToDoArray ([...toDoArray,toDo])
-//             e.preventDefault();
-//             setToDo("")
-//         }
-// //Esta función borra los elementos
-//         function borrar (id) {
-//             let duties = []
-//             duties = toDoArray.filter((item,index) => {
-//                 if (index !== id) {
-//                     return item
-//                 }
-//             })
-//             setToDoArray(duties)
-//         }
+
+        const deleteTask = async(id) => {
+            try{
+                let result = toDoArray.filter((item, index) => index != id )
+                let response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/nessa",{
+                        method: "PUT",
+                        headers: {
+                            "content-type": "application/json",
+                        },
+                        body: JSON.stringify(result)
+                    });
+                    if (response.ok) {
+                        getToDo();
+                    }
+            } catch (error) {
+                console.log(error)
+            }
+        }
 
 
 	return (
@@ -77,7 +98,7 @@ const ToDoList = () => {
                             {toDoArray.length>0 ? (
                             toDoArray.map((item, index) => (
                             <li key={index} >{item.label}
-                            <button className="btn borra" type= "button" >✕</button>
+                            <button className="btn borra" onClick={() => {deleteTask(index)}} type= "button" >✕</button>
                             </li>
                             ))): (
                                 <li>No tienes tareas pendientes</li>
