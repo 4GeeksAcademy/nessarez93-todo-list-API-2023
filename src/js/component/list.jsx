@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 
 const ToDoList = () => {
 
-    // API_URL= "https://playground.4geeks.com/apis/fake/todos/user/nessa"
 
-//Esta función agrega el valor nuevo
-        const [toDo,setToDo] = useState({"label":"","done":false})
+        const [toDo,setToDo] = useState({
+            "label":"","done":false
+        })
         const [toDoArray,setToDoArray] = useState([])
         const handleChange = (e) => {
-            setToDo({...toDo, "label":e.target.value})
+            setToDo({
+                ...toDo, "label":e.target.value
+            })
         }
         
         const createUser = async () => {
@@ -55,7 +57,9 @@ const ToDoList = () => {
                     });
                     if (response.ok) {
                         getToDo();
-                        setToDo({"label":"","done":false});
+                        setToDo({
+                            "label":"","done":false
+                        });
                     }
 
                 } catch (error) {
@@ -96,14 +100,20 @@ const ToDoList = () => {
                         <input type="text" onChange={handleChange} onKeyDown={saveToDo} value={toDo.label} aria-label=".form-control-lg example" placeholder="¿Qué falta hacer?"/>
                         <ul className="list-group list-group-flush" >
                             {toDoArray.length>0 ? (
-                            toDoArray.map((item, index) => (
-                            <li key={index} >{item.label}
-                            <button className="btn borra" onClick={() => {deleteTask(index)}} type= "button" >✕</button>
-                            </li>
-                            ))): (
-                                <li>No tienes tareas pendientes</li>
-                            )}
-                            <li><h6>{toDoArray.length} items left</h6></li>
+                                toDoArray.map((item, index) => (
+                                    <li key={index} >{item.label}
+                                        <button className="btn borra" onClick={() => {deleteTask(index)}} type= "button" >✕</button>
+                                    </li>
+                                    ))): (
+                                        <li>
+                                            No tienes tareas pendientes
+                                        </li>
+                                    )}
+                                    <li>
+                                        <h6>
+                                            {toDoArray.length} items left
+                                        </h6>
+                                    </li>
                         </ul>
                 </form>
             </div>
